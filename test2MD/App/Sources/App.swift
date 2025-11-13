@@ -19,7 +19,7 @@ struct InfantinoApp: App {
     var body: some Scene {
         WindowGroup {
             NavigationStack {
-                HomeView()
+                HomeView(viewModel: HomeViewModel(repository: repository))
             }
             .modelContainer(container)
             .environment(\.reviewRepository, repository)
