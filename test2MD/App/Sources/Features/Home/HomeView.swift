@@ -2,6 +2,7 @@ import SwiftUI
 
 struct HomeView: View {
     @Environment(\.openURL) private var openURL
+    @Environment(\.reviewRepository) private var reviewRepository
     @ObservedObject private var viewModel: HomeViewModel
 
     init(viewModel: HomeViewModel) {
@@ -35,8 +36,16 @@ struct HomeView: View {
         .navigationDestination(item: $viewModel.destination) { destination in
             switch destination {
             case .reviewEditor:
-                Text(LocalizedStringKey("home_review_editor_placeholder"))
-                    .onDisappear { viewModel.clearDestination() }
+                ReviewEditorView(
+                    viewModel: ReviewEditorViewModel(
+                        reviewRepository: reviewRepository,
+                        onReviewSaved: {
+                            viewModel.refreshReviews()
+                            viewModel.clearDestination()
+                        }
+                    )
+                )
+                .onDisappear { viewModel.clearDestination() }
             }
         }
         .overlay(alignment: .bottomTrailing) {
@@ -385,4 +394,5 @@ private struct FloatingActionButton: View {
     return NavigationStack {
         HomeView(viewModel: HomeViewModel(repository: repository))
     }
+    .environment(\.reviewRepository, repository)
 }
