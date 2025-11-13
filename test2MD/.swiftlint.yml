@@ -1,0 +1,43 @@
+included:
+  - App
+  - Models
+  - Storage
+  - Tests
+excluded:
+  - .build
+  - Build
+  - DerivedData
+  - Scripts
+
+line_length:
+  ignores_urls: true
+  warning: 120
+  error: 140
+
+disabled_rules:
+  - todo
+  - trailing_whitespace
+
+opt_in_rules:
+  - empty_count
+  - redundant_nil_coalescing
+  - vertical_whitespace_between_cases
+  - unused_import
+  - identifier_name
+
+identifier_name:
+  min_length: 3
+  allowed_symbols: ["_"]
+
+type_name:
+  min_length: 3
+  max_length: 60
+
+custom_rules:
+  localized_string:
+    included: "App/Sources"
+    name: "Localized String"
+    regex: "Text\\(\""
+    match_kinds:
+      - identifier
+    message: "Utilizzare LocalizedStringKey o Localizable.strings per i testi UI."
